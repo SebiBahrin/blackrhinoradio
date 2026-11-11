@@ -1,0 +1,20 @@
+Partea A.1 - A.3: Configurare Git si Creare Proiect
+Pe GitHub: Creeaza un repository public numit PracticalTest01Var07.
+
+Fisiere initiale in repo:
+
+README.md: Adauga un continut simplu, cu datele tale:
+
+.gitignore: Adauga regulile specifice pentru Android pentru a ignora fisierele generate:
+
+Plaintext
+*.ap_
+*.apk
+*.dex
+/classes/
+LICENSE: Alege o licenta standard de pe GitHub (ex. MIT License) in momentul crearii.
+
+
+Part A4:
+Vom folosi un GridLayout pentru a respecta cerinta unui tabel 2x2. Adauga urmatorul cod in fisierul XML.
+res/layout/activity_practical_test01_var07_main.xml

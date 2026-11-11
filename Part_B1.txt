@@ -1,0 +1,70 @@
+Partea B.1 si B.2: Logica Main Activity + Invocare Secondary Activity 
+(Intentii Implicite)
+Pentru a permite invocarea activitatii secundare "doar prin intermediul unei intentii" (implicite), trebuie sa definim un <intent-filter> cu categoria DEFAULT in AndroidManifest.xml.  
+In AndroidManifest.xml (adauga in interiorul sectiunii <application>):
+
+<activity android:name=".PracticalTest01Var07SecondaryActivity" android:exported="true">
+    <intent-filter>
+        <action android:name="ro.pub.cs.systems.eim.practicaltest01var07.intent.action.PracticalTest01Var07SecondaryActivity" />
+        <category android:name="android.intent.category.DEFAULT" />
+    </intent-filter>
+</activity>
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+APOI CRED CA E IN ALT FISIER :
+PracticalTest01Var07MainActivity.kt !!!!!!!!!!!!!!!!!!!!
+
+package ro.pub.cs.systems.eim.practicaltest01var07
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import java.util.Locale
+import kotlin.random.Random
+
+class PracticalTest01Var07MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_practical_test01_var07_main)
+
+        val etTopLeft = findViewById<EditText>(R.id.edit_text_top_left)
+        val etTopRight = findViewById<EditText>(R.id.edit_text_top_right)
+        val etBottomLeft = findViewById<EditText>(R.id.edit_text_bottom_left)
+        val etBottomRight = findViewById<EditText>(R.id.edit_text_bottom_right)
+        
+        val btnSet = findViewById<Button>(R.id.button_set)
+        val btnRandom = findViewById<Button>(R.id.button_random)
+
+        btnRandom.setOnClickListener {
+            populateIfInvalid(etTopLeft)
+            populateIfInvalid(etTopRight)
+            populateIfInvalid(etBottomLeft)
+            populateIfInvalid(etBottomRight)
+        }
+
+        btnSet.setOnClickListener {
+            // Utilizam o intentie implicita cu actiunea definita in manifest[cite: 1]
+            val intent = Intent("ro.pub.cs.systems.eim.practicaltest01var07.intent.action.PracticalTest01Var07SecondaryActivity")
+            intent.putExtra("TOP_LEFT", etTopLeft.text.toString())
+            intent.putExtra("TOP_RIGHT", etTopRight.text.toString())
+            intent.putExtra("BOTTOM_LEFT", etBottomLeft.text.toString())
+            intent.putExtra("BOTTOM_RIGHT", etBottomRight.text.toString())
+            
+            startActivity(intent)
+        }
+    }
+
+    private fun populateIfInvalid(editText: EditText) {
+        val text = editText.text.toString()
+        val floatValue = text.toFloatOrNull()
+        
+        // Daca nu este numar, ii generam un float aleator pana in 10.0
+        if (floatValue == null) {
+            val randomValue = Random.nextDouble(0.0, 10.0)
+            editText.setText(String.format(Locale.US, "%.2f", randomValue))
+        }
+    }
+}
